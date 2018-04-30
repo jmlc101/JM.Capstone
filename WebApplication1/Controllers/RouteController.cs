@@ -27,6 +27,10 @@ namespace WebApplication1.Controllers
 
         public ActionResult DisplaySelectRoute()
         {
+            string origin = "";
+            string waypoints = "";
+            string destination = "";
+
             return View();
         }
 
