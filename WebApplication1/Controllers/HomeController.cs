@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using WebApplication1.Models;
-// I'm just playing with git branches :)
+
 namespace WebApplication1.Controllers
 {
     public class HomeController : Controller

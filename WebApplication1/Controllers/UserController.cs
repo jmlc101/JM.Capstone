@@ -37,7 +37,7 @@ namespace WebApplication1.Controllers
         }
         [HttpPost] // TODO - Need Better validation on all entry Fields!!.
         public IActionResult Register(RegisterUserViewModel registerUserViewModel)
-        {
+        {//TODO - Need to check to see if user already exists in database!
             if (ModelState.IsValid)
             {
                 var newSalt = HashHelp.GeneratePassword(10);
