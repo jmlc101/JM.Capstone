@@ -10,6 +10,7 @@ namespace WebApplication1.Data
     public class JMCapstoneDbContext : DbContext
     {
         public DbSet<User> Users { get; set; }
+        public DbSet<Route> Routes { get; set; }
 
         public JMCapstoneDbContext(DbContextOptions<JMCapstoneDbContext> options) : base(options)
         {

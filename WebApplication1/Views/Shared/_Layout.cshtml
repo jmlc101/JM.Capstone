@@ -184,6 +184,11 @@
                 <h1>Hello @ViewBag.SessionScreenName!!!</h1>
 
             }
+            @if (ViewBag.SaveRoute != null)
+            {
+                <h1>Save A New Route!</h1>
+
+            }
         </header>
     </div>
         @RenderBody()

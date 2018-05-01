@@ -4,11 +4,20 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using WebApplication1.Data;
+using WebApplication1.Models;
+using WebApplication1.ViewModels;
 
 namespace WebApplication1.Controllers
 {
     public class RouteController : Controller
     {
+        private JMCapstoneDbContext context;
+        public RouteController(JMCapstoneDbContext dbContext)
+        {
+            context = dbContext;
+        }
+
         // GET: Route
         public ActionResult Index()
         {
@@ -22,15 +31,40 @@ namespace WebApplication1.Controllers
 
         public ActionResult SaveRoute()
         {
+            ViewBag.SaveRoute = 1;
             return View();
+        }
+        // TODO - Make sure User is Logged in in order to save a route! Must check session! 
+        // TODO - Make sure User gets to confirm route map before submitting it to database!
+        [HttpPost]
+        public ActionResult SaveRoute(SaveRouteViewModel saveRouteViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                string waypoints = ""; // TODO - need to change Waypoints from saveRouteViewModel to Google API query format.
+                string destination = "";// TODO - need to change Destination from saveRouteViewModel to Google API query format.
+                string origin = "";// TODO - need to change Origin from saveRouteViewModel to Google API query format.
+
+                List<string> reviews = new List<string>();
+                reviews.Add(saveRouteViewModel.Review);
+
+                Route newRoute = new Route
+                {
+                    RouteName = saveRouteViewModel.RouteName,
+                    Origin = origin,
+                    Waypoints = waypoints,
+                    Destination = destination,
+                    Reviews = reviews,
+                };// TODO - Why would I need to "Clear a ModelState"?
+                context.Routes.Add(newRoute);
+                context.SaveChanges();
+                return Redirect("/User"); // TODO - NEED to REDIRECT TO A CONFIRMATION PAGE TO VERIFY THE MAPPED ROUTE FOR THE USER!!!!!
+            }
+            return View(saveRouteViewModel);
         }
 
         public ActionResult DisplaySelectRoute()
         {
-            string origin = "";
-            string waypoints = "";
-            string destination = "";
-
             return View();
         }
 

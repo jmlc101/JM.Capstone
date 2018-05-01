@@ -1,32 +1,193 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
+@model WebApplication1.ViewModels.SaveRouteViewModel
 @{
 }
-<div class="row">
-    <div class="col-3 menu">
-    </div>
+<form asp-controller="Route" asp-action="SaveRoute" method="post">
+    <div class="row">
+
+        <div class="col-3 menu">
+            <h2>Step One:</h2>
+            <div class="form-group">
+                <label asp-for="RouteName"></label>
+                <input class="form-control" asp-for="RouteName" />
+                <span asp-validation-for="RouteName"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Origin"></label>
+                <input class="form-control" asp-for="Origin" />
+                <p>Example: "Northwest Transfer Center Hillsborough County"</p>
+                <span asp-validation-for="Origin"></span>
+            </div>
+        </div>
 
 
-        <div class="col-6">
+        <div class="col-4">
+
+
+            <h2>Step Two (optional):</h2>
+            <p>Enter any Intersections made along the route.</p>
+            <p>Example: "Race Track Rd and Gunn Hwy"</p>
+            <div class="form-group">
+                <label asp-for="Waypoint1"></label>
+                <input class="form-control" asp-for="Waypoint1" />
+                <span>(Optional)</span>
+                <span asp-validation-for="Waypoint1"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Waypoint2"></label>
+                <input class="form-control" asp-for="Waypoint2" />
+                <span>(Optional)</span>
+                <span asp-validation-for="Waypoint2"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Waypoint3"></label>
+                <input class="form-control" asp-for="Waypoint3" />
+                <span>(Optional)</span>
+                <span asp-validation-for="Waypoint3"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Waypoint4"></label>
+                <input class="form-control" asp-for="Waypoint4" />
+                <span>(Optional)</span>
+                <span asp-validation-for="Waypoint4"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Waypoint5"></label>
+                <input class="form-control" asp-for="Waypoint5" />
+                <span>(Optional)</span>
+                <span asp-validation-for="Waypoint5"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Waypoint6"></label>
+                <input class="form-control" asp-for="Waypoint6" />
+                <span>(Optional)</span>
+                <span asp-validation-for="Waypoint6"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Waypoint7"></label>
+                <input class="form-control" asp-for="Waypoint7" />
+                <span>(Optional)</span>
+                <span asp-validation-for="Waypoint7"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Waypoint8"></label>
+                <input class="form-control" asp-for="Waypoint8" />
+                <span>(Optional)</span>
+                <span asp-validation-for="Waypoint8"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Waypoint9"></label>
+                <input class="form-control" asp-for="Waypoint9" />
+                <span>(Optional)</span>
+                <span asp-validation-for="Waypoint9"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Waypoint10"></label>
+                <input class="form-control" asp-for="Waypoint10" />
+                <span>(Optional)</span>
+                <span asp-validation-for="Waypoint10"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Waypoint11"></label>
+                <input class="form-control" asp-for="Waypoint11" />
+                <span>(Optional)</span>
+                <span asp-validation-for="Waypoint11"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Waypoint12"></label>
+                <input class="form-control" asp-for="Waypoint12" />
+                <span>(Optional)</span>
+                <span asp-validation-for="Waypoint12"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Waypoint13"></label>
+                <input class="form-control" asp-for="Waypoint13" />
+                <span>(Optional)</span>
+                <span asp-validation-for="Waypoint13"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Waypoint14"></label>
+                <input class="form-control" asp-for="Waypoint14" />
+                <span>(Optional)</span>
+                <span asp-validation-for="Waypoint14"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Waypoint15"></label>
+                <input class="form-control" asp-for="Waypoint15" />
+                <span>(Optional)</span>
+                <span asp-validation-for="Waypoint15"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Waypoint16"></label>
+                <input class="form-control" asp-for="Waypoint16" />
+                <span>(Optional)</span>
+                <span asp-validation-for="Waypoint16"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Waypoint17"></label>
+                <input class="form-control" asp-for="Waypoint17" />
+                <span>(Optional)</span>
+                <span asp-validation-for="Waypoint17"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Waypoint18"></label>
+                <input class="form-control" asp-for="Waypoint18" />
+                <span>(Optional)</span>
+                <span asp-validation-for="Waypoint18"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Waypoint19"></label>
+                <input class="form-control" asp-for="Waypoint19" />
+                <span>(Optional)</span>
+                <span asp-validation-for="Waypoint19"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Waypoint20"></label>
+                <input class="form-control" asp-for="Waypoint20" />
+                <span>(Optional)</span>
+                <span asp-validation-for="Waypoint20"></span>
+            </div>
+
+
+
+
 
         </div>
 
+        <div class="col-5">
+
+            <h2>Step Three:</h2>
+
+            <div class="form-group">
+                <label asp-for="Destination"></label>
+                <input class="form-control" asp-for="Destination" />
+                <span asp-validation-for="Destination"></span>
+            </div>
+            <p>Example: "Clearwater Beach, Tampa Florida"</p>
+            <div class="form-group">
+                <label asp-for="Review"></label>
+                <input class="form-control" asp-for="Review" />
+                <span asp-validation-for="Review"></span>
+            </div>
+            <input id="two" type="submit" value="Save Route!" />
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-3 menu">
+        </div>
+
+        <div class="col-6">
+
+
+        </div>
         <div class="col-3">
 
         </div>
 
-</div>
-
-<div class="row">
-    <div class="col-3 menu">
     </div>
-
-        <div class="col-6">
-        </div>
-        <div class="col-3">
-
-        </div>
-
-</div>
-<br />
+    <br />
+</form>
