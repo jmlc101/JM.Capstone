@@ -3,3 +3,36 @@
 *@
 @{
 }
+<div class="row">
+    <div class="col-3 menu">
+    </div>
+
+
+        <div class="col-6">
+            <table id="routeList">
+            @foreach (Route route in ViewBag.Routes)
+            {
+                <tr>
+                <td><a asp-controller="Route" asp-action="DisplaySelectRoute" asp-route-id="@route.ID">@route.RouteName</a></td>
+                </tr>
+            }
+            </table>
+        </div>
+
+        <div class="col-3">
+
+        </div>
+
+</div>
+
+<div class="row">
+    <div class="col-3 menu">
+    </div>
+
+
+    <div class="col-6">
+    </div>
+    <div class="col-3">
+    </div>
+</div>
+<br />

@@ -21,6 +21,8 @@ namespace WebApplication1.Controllers
         // GET: Route
         public ActionResult Index()
         {
+            List<Route> routes = new List<Route>();
+            ViewBag.Routes = context.Routes.ToList<Route>();
             return View();
         }
 
