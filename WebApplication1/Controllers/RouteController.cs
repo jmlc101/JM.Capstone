@@ -23,6 +23,7 @@ namespace WebApplication1.Controllers
         {
             List<Route> routes = new List<Route>();
             ViewBag.Routes = context.Routes.ToList<Route>();
+            ViewBag.UserScreenName = HttpContext.Session.GetString("_ScreenName");
             return View();
         }
 
@@ -34,6 +35,7 @@ namespace WebApplication1.Controllers
         public ActionResult SaveRoute()
         {
             ViewBag.SaveRoute = 1;
+            ViewBag.UserScreenName = HttpContext.Session.GetString("_ScreenName");
             return View();
         }
         // TODO - Make sure User is Logged in in order to save a route! Must check session! 
@@ -423,7 +425,7 @@ namespace WebApplication1.Controllers
                 context.Routes.Add(newRoute);
                 context.SaveChanges();
 
-                ViewBag.Origin = origin;
+                ViewBag.Origin = origin; // TODO - I'm not sure I need these 3 lines anymore...
                 ViewBag.Waypoints = waypoints;
                 ViewBag.Destination = destination;
 
@@ -439,7 +441,15 @@ namespace WebApplication1.Controllers
             ViewBag.Origin = theRoute.Origin;
             ViewBag.Waypoints = theRoute.Waypoints;
             ViewBag.Destination = theRoute.Destination;
+            ViewBag.Review = theRoute.Review;
+            ViewBag.UserScreenName = HttpContext.Session.GetString("_ScreenName");
             return View();
+        }
+
+        public ActionResult DisplayFavorites()
+        {
+            ViewBag.Favorites = "";
+            return Redirect("/User");
         }
 
         public ActionResult SaveFavoriteRoute()
