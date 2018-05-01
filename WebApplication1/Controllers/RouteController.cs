@@ -42,11 +42,373 @@ namespace WebApplication1.Controllers
             if (ModelState.IsValid)
             {
                 string waypoints = ""; // TODO - need to change Waypoints from saveRouteViewModel to Google API query format.
-                string destination = "";// TODO - need to change Destination from saveRouteViewModel to Google API query format.
-                string origin = "";// TODO - need to change Origin from saveRouteViewModel to Google API query format.
+                if (saveRouteViewModel.Waypoint1 == null) { }
+                else
+                { 
+                    foreach (char character in saveRouteViewModel.Waypoint1)
+                    {
+                        char item = character;
+                        if (item == ' ')
+                        {
+                            waypoints = waypoints + '+';
+                        }
+                        else
+                        {
+                            waypoints = waypoints + character;
+                        }
+                    }
+                }
+                if (saveRouteViewModel.Waypoint2 == null) { }
+                else
+                {
+                    waypoints = waypoints + '|';
+                    foreach (char character in saveRouteViewModel.Waypoint2)
+                    {
+                        char item = character;
+                        if (item == ' ')
+                        {
+                            waypoints = waypoints + '+';
+                        }
+                        else
+                        {
+                            waypoints = waypoints + character;
+                        }
+                    }
+                }
+                if (saveRouteViewModel.Waypoint3 == null) { }
+                else
+                {
+                    waypoints = waypoints + '|';
+                    foreach (char character in saveRouteViewModel.Waypoint3)
+                    {
+                        char item = character;
+                        if (item == ' ')
+                        {
+                            waypoints = waypoints + '+';
+                        }
+                        else
+                        {
+                            waypoints = waypoints + character;
+                        }
+                    }
+                }
+                if (saveRouteViewModel.Waypoint4 == null) { }
+                else
+                {
+                    waypoints = waypoints + '|';
+                    foreach (char character in saveRouteViewModel.Waypoint4)
+                    {
+                        char item = character;
+                        if (item == ' ')
+                        {
+                            waypoints = waypoints + '+';
+                        }
+                        else
+                        {
+                            waypoints = waypoints + character;
+                        }
+                    }
+                }
+                if (saveRouteViewModel.Waypoint5 == null) { }
+                else
+                {
+                    waypoints = waypoints + '|';
+                    foreach (char character in saveRouteViewModel.Waypoint5)
+                    {
+                        char item = character;
+                        if (item == ' ')
+                        {
+                            waypoints = waypoints + '+';
+                        }
+                        else
+                        {
+                            waypoints = waypoints + character;
+                        }
+                    }
+                }
+                if (saveRouteViewModel.Waypoint6 == null) { }
+                else
+                {
+                    waypoints = waypoints + '|';
+                    foreach (char character in saveRouteViewModel.Waypoint6)
+                    {
+                        char item = character;
+                        if (item == ' ')
+                        {
+                            waypoints = waypoints + '+';
+                        }
+                        else
+                        {
+                            waypoints = waypoints + character;
+                        }
+                    }
+                }
+                if (saveRouteViewModel.Waypoint7 == null) { }
+                else
+                {
+                    waypoints = waypoints + '|';
+                    foreach (char character in saveRouteViewModel.Waypoint7)
+                    {
+                        char item = character;
+                        if (item == ' ')
+                        {
+                            waypoints = waypoints + '+';
+                        }
+                        else
+                        {
+                            waypoints = waypoints + character;
+                        }
+                    }
+                }
+                if (saveRouteViewModel.Waypoint8 == null) { }
+                else
+                {
+                    waypoints = waypoints + '|';
+                    foreach (char character in saveRouteViewModel.Waypoint8)
+                    {
+                        char item = character;
+                        if (item == ' ')
+                        {
+                            waypoints = waypoints + '+';
+                        }
+                        else
+                        {
+                            waypoints = waypoints + character;
+                        }
+                    }
+                }
+                if (saveRouteViewModel.Waypoint9 == null) { }
+                else
+                {
+                    waypoints = waypoints + '|';
+                    foreach (char character in saveRouteViewModel.Waypoint9)
+                    {
+                        char item = character;
+                        if (item == ' ')
+                        {
+                            waypoints = waypoints + '+';
+                        }
+                        else
+                        {
+                            waypoints = waypoints + character;
+                        }
+                    }
+                }
+                if (saveRouteViewModel.Waypoint10 == null) { }
+                else
+                {
+                    waypoints = waypoints + '|';
+                    foreach (char character in saveRouteViewModel.Waypoint10)
+                    {
+                        char item = character;
+                        if (item == ' ')
+                        {
+                            waypoints = waypoints + '+';
+                        }
+                        else
+                        {
+                            waypoints = waypoints + character;
+                        }
+                    }
+                }
+                if (saveRouteViewModel.Waypoint11 == null) { }
+                else
+                {
+                    waypoints = waypoints + '|';
+                    foreach (char character in saveRouteViewModel.Waypoint11)
+                    {
+                        char item = character;
+                        if (item == ' ')
+                        {
+                            waypoints = waypoints + '+';
+                        }
+                        else
+                        {
+                            waypoints = waypoints + character;
+                        }
+                    }
+                }
+                if (saveRouteViewModel.Waypoint12 == null) { }
+                else
+                {
+                    waypoints = waypoints + '|';
+                    foreach (char character in saveRouteViewModel.Waypoint12)
+                    {
+                        char item = character;
+                        if (item == ' ')
+                        {
+                            waypoints = waypoints + '+';
+                        }
+                        else
+                        {
+                            waypoints = waypoints + character;
+                        }
+                    }
+                }
+                if (saveRouteViewModel.Waypoint13 == null) { }
+                else
+                {
+                    waypoints = waypoints + '|';
+                    foreach (char character in saveRouteViewModel.Waypoint13)
+                    {
+                        char item = character;
+                        if (item == ' ')
+                        {
+                            waypoints = waypoints + '+';
+                        }
+                        else
+                        {
+                            waypoints = waypoints + character;
+                        }
+                    }
+                }
+                if (saveRouteViewModel.Waypoint14 == null) { }
+                else
+                {
+                    waypoints = waypoints + '|';
+                    foreach (char character in saveRouteViewModel.Waypoint14)
+                    {
+                        char item = character;
+                        if (item == ' ')
+                        {
+                            waypoints = waypoints + '+';
+                        }
+                        else
+                        {
+                            waypoints = waypoints + character;
+                        }
+                    }
+                }
+                if (saveRouteViewModel.Waypoint15 == null) { }
+                else
+                {
+                    waypoints = waypoints + '|';
+                    foreach (char character in saveRouteViewModel.Waypoint15)
+                    {
+                        char item = character;
+                        if (item == ' ')
+                        {
+                            waypoints = waypoints + '+';
+                        }
+                        else
+                        {
+                            waypoints = waypoints + character;
+                        }
+                    }
+                }
+                if (saveRouteViewModel.Waypoint16 == null) { }
+                else
+                {
+                    waypoints = waypoints + '|';
+                    foreach (char character in saveRouteViewModel.Waypoint16)
+                    {
+                        char item = character;
+                        if (item == ' ')
+                        {
+                            waypoints = waypoints + '+';
+                        }
+                        else
+                        {
+                            waypoints = waypoints + character;
+                        }
+                    }
+                }
+                if (saveRouteViewModel.Waypoint17 == null) { }
+                else
+                {
+                    waypoints = waypoints + '|';
+                    foreach (char character in saveRouteViewModel.Waypoint17)
+                    {
+                        char item = character;
+                        if (item == ' ')
+                        {
+                            waypoints = waypoints + '+';
+                        }
+                        else
+                        {
+                            waypoints = waypoints + character;
+                        }
+                    }
+                }
+                if (saveRouteViewModel.Waypoint18 == null) { }
+                else
+                {
+                    waypoints = waypoints + '|';
+                    foreach (char character in saveRouteViewModel.Waypoint18)
+                    {
+                        char item = character;
+                        if (item == ' ')
+                        {
+                            waypoints = waypoints + '+';
+                        }
+                        else
+                        {
+                            waypoints = waypoints + character;
+                        }
+                    }
+                }
+                if (saveRouteViewModel.Waypoint19 == null) { }
+                else
+                {
+                    waypoints = waypoints + '|';
+                    foreach (char character in saveRouteViewModel.Waypoint19)
+                    {
+                        char item = character;
+                        if (item == ' ')
+                        {
+                            waypoints = waypoints + '+';
+                        }
+                        else
+                        {
+                            waypoints = waypoints + character;
+                        }
+                    }
+                }
+                if (saveRouteViewModel.Waypoint20 == null) { }
+                else
+                {
+                    waypoints = waypoints + '|';
+                    foreach (char character in saveRouteViewModel.Waypoint20)
+                    {
+                        char item = character;
+                        if (item == ' ')
+                        {
+                            waypoints = waypoints + '+';
+                        }
+                        else
+                        {
+                            waypoints = waypoints + character;
+                        }
+                    }
+                }
 
-                List<string> reviews = new List<string>();
-                reviews.Add(saveRouteViewModel.Review);
+                string destination = "";// TODO - need to change Destination from saveRouteViewModel to Google API query format.
+                foreach (char character in saveRouteViewModel.Destination)
+                {
+                    char item = character;
+                    if (item == ' ')
+                    {
+                        destination = destination + '+';
+                    }
+                    else
+                    {
+                        destination = destination + character;
+                    }
+                }
+
+                string origin = "";// TODO - need to change Origin from saveRouteViewModel to Google API query format.
+                foreach (char character in saveRouteViewModel.Origin)
+                    {
+                    char item = character;
+                    if (item == ' ')
+                    {
+                        origin = origin + '+';
+                    }
+                    else
+                    {
+                        origin = origin + character;
+                    }
+                }
 
                 Route newRoute = new Route
                 {
@@ -54,17 +416,27 @@ namespace WebApplication1.Controllers
                     Origin = origin,
                     Waypoints = waypoints,
                     Destination = destination,
-                    Reviews = reviews,
+                    Review = saveRouteViewModel.Review, // TODO - change this to a list of User's reviews somehow.
                 };// TODO - Why would I need to "Clear a ModelState"?
                 context.Routes.Add(newRoute);
                 context.SaveChanges();
-                return Redirect("/User"); // TODO - NEED to REDIRECT TO A CONFIRMATION PAGE TO VERIFY THE MAPPED ROUTE FOR THE USER!!!!!
+
+                ViewBag.Origin = origin;
+                ViewBag.Waypoints = waypoints;
+                ViewBag.Destination = destination;
+
+                return RedirectToAction("DisplaySelectRoute", new { id = newRoute.ID }); ; // TODO - NEED to REDIRECT TO A CONFIRMATION PAGE TO VERIFY THE MAPPED ROUTE FOR THE USER!!!!!
             }
             return View(saveRouteViewModel);
         }
 
-        public ActionResult DisplaySelectRoute()
+        
+        public ActionResult DisplaySelectRoute(int id)
         {
+            Route theRoute = context.Routes.Single(c => c.ID == id);
+            ViewBag.Origin = theRoute.Origin;
+            ViewBag.Waypoints = theRoute.Waypoints;
+            ViewBag.Destination = theRoute.Destination;
             return View();
         }
 
