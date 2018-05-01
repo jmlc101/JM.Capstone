@@ -27,7 +27,7 @@ namespace WebApplication1.Controllers
             return View();
         }
 
-        public ActionResult SubmitSearchFilters()
+        public ActionResult SubmitSearchFilters()// TODO - user can submit search parameters for User/Index.cshtml
         {
             return View();
         }
