@@ -442,19 +442,56 @@ namespace WebApplication1.Controllers
             ViewBag.Waypoints = theRoute.Waypoints;
             ViewBag.Destination = theRoute.Destination;
             ViewBag.Review = theRoute.Review;
+            ViewBag.RouteID = theRoute.ID;
             ViewBag.UserScreenName = HttpContext.Session.GetString("_ScreenName");
+            // var getUser = (from s in context.Users where s.ScreenName == "_ScreenName" || s.Email == "_ScreenName" select s).FirstOrDefault();
+            var email = HttpContext.Session.GetString("_Email");
+            User getUser = context.Users.Single(u => u.Email == email);
+            if (getUser == null)
+            {
+                
+            }
+            else
+            {
+                ViewBag.UserID = getUser.ID;
+            }
             return View();
         }
 
-        public ActionResult DisplayFavorites()
-        {
-            ViewBag.Favorites = "";
-            return Redirect("/User");
-        }
+        
 
-        public ActionResult SaveFavoriteRoute()
+        public ActionResult SaveFavoriteRoute(SaveFavoriteRouteViewModel saveFavoriteRouteViewModel)
         {
-            return View();
+            if (saveFavoriteRouteViewModel == null) // TODO - Is this nescessary? I don't think so.
+            {
+                throw new ArgumentNullException(nameof(saveFavoriteRouteViewModel));
+            }
+
+            if (HttpContext.Session.GetString("_Email") is null) // TODO - Is there a better way to filter this?
+            {
+                return Redirect("/User/LogOn");
+            }
+            else
+            {
+                //TODO - Form DB relationship between User and Route.
+                IList<UserRoute> existingItems = context.UserRoutes
+                    .Where(ur => ur.UserID == saveFavoriteRouteViewModel.UserID)
+                    .Where(ur => ur.RouteID == saveFavoriteRouteViewModel.RouteID).ToList();
+                if (existingItems.Count == 0)
+                {
+                    var userID = saveFavoriteRouteViewModel.UserID;
+                    var routeID = saveFavoriteRouteViewModel.RouteID;
+                    UserRoute favRoute = new UserRoute
+                    {
+                        User = context.Users.Single(u => u.ID == userID),
+                        Route = context.Routes.Single(r => r.ID == routeID)
+                    };
+                    context.UserRoutes.Add(favRoute);
+                    context.SaveChanges();
+                    return Redirect("/User/DisplayFavorites");
+                }
+            }
+            return Redirect("/User/DisplayFavorites");
         }
 
         public ActionResult RemoveFavoriteRoute()

@@ -10,7 +10,7 @@
         <ul>
             <li><input id="two" type="button" value="Find Routes" onclick="location.href='@Url.Action("Index", "Route")'" /></li>
             <li><input id="two" type="button" value="Trail Blaze!" onclick="location.href='@Url.Action("SaveRoute", "Route")'" /></li>
-            <li><input id="two" type="button" value="Favorite Routes" onclick="location.href='@Url.Action("SaveRoute", "Route")'" /></li>
+            <li><input id="two" type="button" value="Favorite Routes" onclick="location.href='@Url.Action("DisplayFavorites", "User")'" /></li>
             <li><input id="two" type="button" value="Plans" )'" /></li>
             <li><input id="two" type="button" value="Friends" )'" /></li>
             <li><input id="two" type="button" value="Mail" )'" /></li>
@@ -23,7 +23,20 @@
     </div>
 
     <div class="col-6">
-            
+            @if (ViewBag.Favorites != null)
+            {
+                <table>
+                @foreach (Route route in ViewBag.FavoriteRoutes)
+                {
+                    <tr>
+                        <td>
+                            <a asp-controller="Route" asp-action="DisplaySelectRoute" asp-route-id="@route.ID">@route.RouteName</a>
+                        </td>
+                    </tr>
+
+                }
+                </table>
+            }
     </div>
 
     <div class="col-3">
