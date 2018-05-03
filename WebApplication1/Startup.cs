@@ -27,8 +27,8 @@ namespace WebApplication1
     options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddDistributedMemoryCache();
-            services.AddSession(options => {
-                options.IdleTimeout = TimeSpan.FromMinutes(1);//You can set Time   
+            services.AddSession(options => {// TODO - Set Timeout time to lower (1) for testing purposes, when testing User routing based on session status.
+                options.IdleTimeout = TimeSpan.FromMinutes(20);//You can set Time   
             });
 
             services.AddMvc();
