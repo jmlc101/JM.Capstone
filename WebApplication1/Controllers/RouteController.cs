@@ -434,7 +434,7 @@ namespace WebApplication1.Controllers
             return View(saveRouteViewModel);
         }
 
-        
+
         public ActionResult DisplaySelectRoute(int id)
         {
             Route theRoute = context.Routes.Single(c => c.ID == id);
@@ -446,14 +446,19 @@ namespace WebApplication1.Controllers
             ViewBag.UserScreenName = HttpContext.Session.GetString("_ScreenName");
             // var getUser = (from s in context.Users where s.ScreenName == "_ScreenName" || s.Email == "_ScreenName" select s).FirstOrDefault();
             var email = HttpContext.Session.GetString("_Email");
-            User getUser = context.Users.Single(u => u.Email == email);
-            if (getUser == null)
-            {
-                
-            }
-            else
-            {
-                ViewBag.UserID = getUser.ID;
+
+            var sessionTest = HttpContext.Session.GetString("_Email"); // TODO - Check out this 2 line session test, any better ways?
+            if (sessionTest != null)
+            { 
+                User getUser = context.Users.Single(u => u.Email == email);
+                if (getUser == null)
+                {
+
+                }
+                else
+                {
+                    ViewBag.UserID = getUser.ID;
+                }
             }
             return View();
         }
