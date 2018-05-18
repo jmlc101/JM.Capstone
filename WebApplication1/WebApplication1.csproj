@@ -21,4 +21,8 @@
   <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.2" />
 </ItemGroup>
 
+<ItemGroup>
+  <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="2.0.2-msbuild3-final" />
+</ItemGroup>
+
 </Project>
