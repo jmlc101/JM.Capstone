@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using WebApplication1.Data;
 using WebApplication1.Models;
 using WebApplication1.ViewModels;
@@ -12,10 +13,14 @@ namespace WebApplication1.Controllers
 {
     public class RouteController : Controller
     {
+        private Secrets _secrets { get; } // This ojbect isn't containing anything.
+
         private JMCapstoneDbContext context;
-        public RouteController(JMCapstoneDbContext dbContext)
+
+        public RouteController(JMCapstoneDbContext dbContext, IOptions<Secrets> _secrets)
         {
             context = dbContext;
+            this._secrets = _secrets.Value;
         }
 
         // GET: Route
@@ -437,6 +442,14 @@ namespace WebApplication1.Controllers
 
         public ActionResult DisplaySelectRoute(int id)
         {
+            ////
+            //ViewData["apiKey"] = (this._secrets.MapApiKey); // not set to an instance of an object?
+            //int test = this._secrets.MapApiKey.Count();
+            ViewData["apiKey"] = string.IsNullOrEmpty(this._secrets.MapApiKey)
+            ? "Are you in production?"
+            : this._secrets.MapApiKey;
+            //////
+
             Route theRoute = context.Routes.Single(c => c.ID == id);
             ViewBag.Origin = theRoute.Origin;
             ViewBag.Waypoints = theRoute.Waypoints;
