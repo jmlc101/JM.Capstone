@@ -11,26 +11,15 @@ using WebApplication1.Data;
 namespace WebApplication1.Migrations
 {
     [DbContext(typeof(JMCapstoneDbContext))]
-    partial class JMCapstoneDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180606164717_newdayfriends")]
+    partial class newdayfriends
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.0.2-rtm-10011")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("WebApplication1.Models.FriendRequest", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("RequestingUserID");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("FriendRequest");
-                });
 
             modelBuilder.Entity("WebApplication1.Models.Review", b =>
                 {
@@ -100,22 +89,13 @@ namespace WebApplication1.Migrations
 
                     b.Property<string>("ScreenName");
 
+                    b.Property<int?>("UserID");
+
                     b.HasKey("ID");
 
+                    b.HasIndex("UserID");
+
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("WebApplication1.Models.UserFriendRequest", b =>
-                {
-                    b.Property<int>("UserID");
-
-                    b.Property<int>("FriendRequestID");
-
-                    b.HasKey("UserID", "FriendRequestID");
-
-                    b.HasIndex("FriendRequestID");
-
-                    b.ToTable("UserFriendRequests");
                 });
 
             modelBuilder.Entity("WebApplication1.Models.UserRoute", b =>
@@ -163,17 +143,11 @@ namespace WebApplication1.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("WebApplication1.Models.UserFriendRequest", b =>
+            modelBuilder.Entity("WebApplication1.Models.User", b =>
                 {
-                    b.HasOne("WebApplication1.Models.FriendRequest", "FriendRequest")
-                        .WithMany("UserFriendRequests")
-                        .HasForeignKey("FriendRequestID")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("WebApplication1.Models.User", "User")
-                        .WithMany("UserFriendRequests")
-                        .HasForeignKey("UserID")
-                        .OnDelete(DeleteBehavior.Cascade);
+                    b.HasOne("WebApplication1.Models.User")
+                        .WithMany("FriendRequests")
+                        .HasForeignKey("UserID");
                 });
 
             modelBuilder.Entity("WebApplication1.Models.UserRoute", b =>

@@ -25,12 +25,25 @@ namespace WebApplication1.Controllers
         // GET: User
         public ActionResult Index()
         {
-            if (HttpContext.Session.GetString("_Email") is null) // TODO - Is there a better way to filter this?
+            string email = HttpContext.Session.GetString("_Email");
+            string screenName = HttpContext.Session.GetString("_ScreenName");
+            if (email is null) // TODO - Is there a better way to filter this?
             {
                 return Redirect("/Welcome");
             }
-            ViewBag.SessionEmail = HttpContext.Session.GetString("_Email");
-            ViewBag.SessionScreenName = HttpContext.Session.GetString("_ScreenName");
+            User user = context.Users.Single(u => u.Email == email);
+            var exisitngFriendRequests = context.UserFriendRequests.Where(r => r.UserID == user.ID).ToList();
+
+            IList<User> requestingUsers = new List<User>();
+
+            foreach (UserFriendRequest request in exisitngFriendRequests)
+            {
+                requestingUsers.Add(request.User);
+            }
+            ViewBag.ListRequestingUsers = requestingUsers;
+
+            ViewBag.SessionEmail = email;
+            ViewBag.SessionScreenName = screenName;
             ViewBag.answer = "yes";
 
             ViewBag.DbSubmissionAlert = TempData["Alert"];
@@ -40,13 +53,45 @@ namespace WebApplication1.Controllers
 
         public ActionResult Profile(string screenname)
         {
-            if (HttpContext.Session.GetString("_Email") is null) // TODO - Is there a better way to filter this?
+            string loggedUserEmail = HttpContext.Session.GetString("_Email");
+            if (loggedUserEmail is null) // TODO - Is there a better way to filter this?
             {
                 return Redirect("/User/LogOn");
             }
             User profilesUser = context.Users.Single(u => u.ScreenName == screenname);
-
+            User loggedUser = context.Users.Single(u => u.Email == loggedUserEmail);
+            ViewBag.UserIDB = profilesUser.ID;
+            ViewBag.UserIDA = loggedUser.ID;
             ViewBag.ProfileUserScreenName = profilesUser.ScreenName;
+            return View();
+        }
+
+        public ActionResult SendFriendRequest(int userAID, int userBID)
+        {
+            User requestingUser = context.Users.Single(u => u.ID == userAID);
+            User userRequested = context.Users.Single(u => u.ID == userBID);
+
+            FriendRequest friendRequest = new FriendRequest {
+                RequestingUserID = userAID
+            };
+            
+            UserFriendRequest userFriendRequest = new UserFriendRequest
+            {
+                User = userRequested,
+                FriendRequest = friendRequest
+            };
+
+            context.UserFriendRequests.Add(userFriendRequest);
+            context.SaveChanges();
+
+            return Redirect("/User");
+        }
+        public ActionResult ConfirmFriendRequest()
+        {
+            return View();
+        }
+        public ActionResult DenyFriendRequest()
+        {
             return View();
         }
 
@@ -140,7 +185,7 @@ namespace WebApplication1.Controllers
                 }
                 ////
 
-                if ( registerUserViewModel.PhoneNumber != null)
+                if (registerUserViewModel.PhoneNumber != null)
                 {
 
                     ////www.safaribooksonline.com/library/view/regular-expressions-cookbook/9781449327453/ch04s02.html
@@ -165,8 +210,34 @@ namespace WebApplication1.Controllers
                     return View(registerUserViewModel);
                 }
 
-                var newSalt = HashHelp.GeneratePassword(10);
+                var newSalt = HashHelp.GeneratePassword(5);
                 var passwordHash = HashHelp.EncodePassword(registerUserViewModel.Password, newSalt);
+                /*
+                IList<string> friendRequests = new List<string>();
+                try
+                {
+                    User masterUser = context.Users.Single(u => u.ID == 1);
+                    friendRequests.Add(masterUser.ScreenName);
+                }
+                catch (System.InvalidOperationException)
+                {
+                    User master = new User
+                    {
+                        ScreenName = "master1",
+                        Email = "master1@master1.com",
+                        PasswordHash = "1234",
+                        HashCode = "",
+                        CreationTime = DateTime.Now,
+                        ModificationTime = DateTime.Now,
+                        PhoneNumber = formattedPhoneNumber
+                    };
+                    context.Users.Add(master);
+                    context.SaveChanges();
+
+                    User masterUser = context.Users.Single(u => u.ID == 1);
+                    friendRequests.Add(masterUser.ScreenName);
+                }
+                */
                 User newUser = new User
                 {
                     ScreenName = registerUserViewModel.ScreenName,

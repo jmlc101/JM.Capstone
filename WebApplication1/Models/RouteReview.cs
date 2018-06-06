@@ -7,8 +7,6 @@ namespace WebApplication1.Models
 {
     public class RouteReview
     {
-        public int ID { get; set; }
-
         public int RouteID { get; set; }
         public Route Route { get; set; }
 

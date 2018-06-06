@@ -48,7 +48,13 @@
     </div>
 
     <div class="col-3">
+        <ul>
+        @foreach (User user in ViewBag.ListRequestingUsers)
+        {
+           <li>@user.ScreenName</li>
 
+        }
+        </ul>
     </div>
 </div>
 

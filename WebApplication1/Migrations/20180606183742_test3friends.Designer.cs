@@ -11,9 +11,10 @@ using WebApplication1.Data;
 namespace WebApplication1.Migrations
 {
     [DbContext(typeof(JMCapstoneDbContext))]
-    partial class JMCapstoneDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180606183742_test3friends")]
+    partial class test3friends
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -109,9 +110,11 @@ namespace WebApplication1.Migrations
                 {
                     b.Property<int>("UserID");
 
-                    b.Property<int>("FriendRequestID");
+                    b.Property<int>("RequestID");
 
-                    b.HasKey("UserID", "FriendRequestID");
+                    b.Property<int?>("FriendRequestID");
+
+                    b.HasKey("UserID", "RequestID");
 
                     b.HasIndex("FriendRequestID");
 
@@ -167,8 +170,7 @@ namespace WebApplication1.Migrations
                 {
                     b.HasOne("WebApplication1.Models.FriendRequest", "FriendRequest")
                         .WithMany("UserFriendRequests")
-                        .HasForeignKey("FriendRequestID")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("FriendRequestID");
 
                     b.HasOne("WebApplication1.Models.User", "User")
                         .WithMany("UserFriendRequests")
