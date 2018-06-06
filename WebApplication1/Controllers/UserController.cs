@@ -95,6 +95,44 @@ namespace WebApplication1.Controllers
             return View();
         }
 
+        public ActionResult DisplayFriends()
+        {
+            var email = HttpContext.Session.GetString("_Email");
+            User getUser = context.Users.Single(u => u.Email == email);
+            if (getUser == null)
+            {
+
+            }
+            else
+            {
+                IList<UserUser> existingfriends = context.UserUsers
+                    .Where(uu => uu.UserIdA == getUser.ID).ToList(); // should be UserIdB???
+                List<string> userScreenNames = new List<string>();
+                List<User> users = new List<User>();
+                foreach (UserUser userUser in existingfriends)
+                {
+                    int userIdA = userUser.UserIdA;
+                    User user = context.Users.Single(u => u.ID == userIdA);
+                    users.Add(user);
+                    string userScreenName = user.ScreenName;
+                    userScreenNames.Add(userScreenName);
+
+                }
+                // ViewBag.Favorites = routeNames;
+                ViewBag.friends = users;
+                ViewBag.Friends = existingfriends;
+                ViewBag.SessionScreenName = HttpContext.Session.GetString("_ScreenName");
+
+                TempData["Alert"] = TempData["Alert"];
+                ViewBag.DbSubmissionAlert = TempData["Alert"];
+
+
+                return View("Index");
+            }
+            return View();
+        }
+
+
         public ActionResult DisplayFavorites()
         {
             var email = HttpContext.Session.GetString("_Email");
@@ -122,6 +160,18 @@ namespace WebApplication1.Controllers
                 ViewBag.FavoriteRoutes = routes;
                 ViewBag.Favorites = existingFavoriteRelationships;
                 ViewBag.SessionScreenName = HttpContext.Session.GetString("_ScreenName");
+                ///////
+                User user = context.Users.Single(u => u.Email == email);
+                var exisitngFriendRequests = context.UserFriendRequests.Where(r => r.UserID == user.ID).ToList();
+
+                IList<User> requestingUsers = new List<User>();
+
+                foreach (UserFriendRequest request in exisitngFriendRequests)
+                {
+                    requestingUsers.Add(request.User);
+                }
+                ViewBag.ListRequestingUsers = requestingUsers;
+                ///////
 
                 TempData["Alert"] = TempData["Alert"];
                 ViewBag.DbSubmissionAlert = TempData["Alert"];
