@@ -27,6 +27,10 @@ namespace WebApplication1.Controllers
         {
             string email = HttpContext.Session.GetString("_Email");
             string screenName = HttpContext.Session.GetString("_ScreenName");
+            try {
+                User getUser = context.Users.Single(u => u.ScreenName == screenName);
+            ViewBag.RequestingUser = getUser;
+            } catch (System.InvalidOperationException) { }// where is getUser Then?
             if (email is null) // TODO - Is there a better way to filter this?
             {
                 return Redirect("/Welcome");
@@ -50,6 +54,31 @@ namespace WebApplication1.Controllers
             ViewBag.answer = "yes";
 
             ViewBag.DbSubmissionAlert = TempData["Alert"];
+
+            //
+            User loggedUser = context.Users.Single(u => u.Email == email);
+            var exisitngFriendRequests = context.UserFriendRequests.Where(r => r.User == loggedUser).ToList();
+
+            IList<int> requestingUsers = new List<int>();
+
+            foreach (UserFriendRequest request in exisitngFriendRequests)
+            {
+                requestingUsers.Add(request.FriendRequest.RequestingUserID);
+
+            }
+            if (requestingUsers.Count > 0)
+            {
+                List<string> screenNames = new List<string>();
+                foreach (int userID in requestingUsers)
+                {
+                    User requestingUser = context.Users.Single(u => u.ID == userID);
+                    string userScreenName = requestingUser.ScreenName;
+                    screenNames.Add(userScreenName);
+                }
+                 
+                ViewBag.ListRequestingUsers = screenNames;
+            }
+            //
 
             return View();
         }
@@ -89,13 +118,14 @@ namespace WebApplication1.Controllers
 
             return Redirect("/User");
         }
-        public ActionResult ConfirmFriendRequest(User userA, User userB)
+        public ActionResult ConfirmFriendRequest(int requestingUserId)
         {
             string sessionEmail = HttpContext.Session.GetString("_Email");
+            User requestingUser = context.Users.Single(u => u.ID == requestingUserId);
             User loggedUser = context.Users.Single(u => u.Email == sessionEmail);
             UserUser newUserUser = new UserUser
             {
-                UserA = userA,
+                UserA = requestingUser,
                 UserB = loggedUser,
             };
 
@@ -180,7 +210,7 @@ namespace WebApplication1.Controllers
                 ViewBag.FavoriteRoutes = routes;
                 ViewBag.Favorites = existingFavoriteRelationships;
                 ViewBag.SessionScreenName = HttpContext.Session.GetString("_ScreenName");
-                ///////
+                /*
                 User user = context.Users.Single(u => u.Email == email);
                 var exisitngFriendRequests = context.UserFriendRequests.Where(r => r.UserID == user.ID).ToList();
 
@@ -191,7 +221,7 @@ namespace WebApplication1.Controllers
                     requestingUsers.Add(request.User);
                 }
                 ViewBag.ListRequestingUsers = requestingUsers;
-                ///////
+                */
 
                 TempData["Alert"] = TempData["Alert"];
                 ViewBag.DbSubmissionAlert = TempData["Alert"];

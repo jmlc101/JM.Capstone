@@ -12,7 +12,7 @@
             <li><input id="two" type="button" value="Find Routes" onclick="location.href='@Url.Action("Index", "Route")'" /></li>
             <li><input id="two" type="button" value="Favorite Routes" onclick="location.href='@Url.Action("DisplayFavorites", "User")'" /></li>
             <li><input id="two" type="button" value="Friends" onclick="location.href='@Url.Action("DisplayFriends", "User", new { userA = ViewBag.UserIDA, userB = ViewBag.UserIDB })'" />
-             @{if (ViewBag.ListRequestingUsers != null) {  <p>Friend Requests!</p>} }</li>
+             @{if (ViewBag.ListRequestingUsers != null) {  <a asp-controller="User" asp-action="DisplayFriendRequests"></a><p>Friend Requests!</p>} }</li>
             <li><input id="two" type="button" value="Mail" )'" /></li>
             <li><input id="two" type="button" value="LogOff" onclick="location.href='@Url.Action("LogOff", "User")'" /></li> <!-- TODO - Thank you https://stackoverflow.com/questions/2503923/html-button-calling-an-mvc-controller-and-action-method -->
         </ul>
@@ -23,67 +23,47 @@
 
     <div class="col-6">
         @if (ViewBag.DbSubmissionAlert != null)
-        {
-            <div class="error-alert">
+    {
+        <div class="error-alert">
             @ViewBag.DbSubmissionAlert
-            </div>
+        </div>
 
-        }
-            @if (ViewBag.Favorites != null)
-            {
-                <table>
-                @foreach (Route route in ViewBag.FavoriteRoutes)
-                {
-                    <tr>
-                        <td>
-                            <a asp-controller="Route" asp-action="DisplaySelectRoute" asp-route-id="@route.ID">@route.RouteName</a>
-                        </td>
-                        <td>
-                            <a asp-controller="Route" asp-action="RemoveFavoriteRoute" asp-route-id="@route.ID">Remove</a>
-                        </td>
-                    </tr>
+}
+        @if (ViewBag.Favorites != null)
+    {
+        <table>
+            @foreach (Route route in ViewBag.FavoriteRoutes)
+        {
+            <tr>
+                <td>
+                    <a asp-controller="Route" asp-action="DisplaySelectRoute" asp-route-id="@route.ID">@route.RouteName</a>
+                </td>
+                <td>
+                    <a asp-controller="Route" asp-action="RemoveFavoriteRoute" asp-route-id="@route.ID">Remove</a>
+                </td>
+            </tr>
 
-                }
-                </table>
-            }
+    }
+        </table>
+}
+
+        @{if (ViewBag.ListRequestingUsers != null)
+        { <a asp-controller="User" asp-action="DisplayFriendRequests"></a><p>Friend Requests!</p>
+            @foreach (string screenName in ViewBag.ListRequestingUsers)
+
+        {
+
+            <p>@screenName</p>
+    }
 
 
-            @if (ViewBag.ListRequestingUsers != null)
-            {
-                <table>
-                @foreach (User friendRequest in ViewBag.ListRequestingUsers)
-                {
-                    <tr>
-                        <td>
-                            <a asp-controller="User" asp-action="Profile" asp-route-id="@friendRequest.ID">@friendRequest.ScreenName</a>
-                        </td>
-                        <td>
-                            <a asp-controller="User" asp-action="ConfirmFriendRequest" asp-route-id="@friendRequest.ID" >Accept Request!</a>
-                            <input id="two" type="button" value="Accept" onclick="location.href='@Url.Action("ConfirmFriendRequest", "User", new { UserA = friendRequest})'" />
-                        </td>
-                    </tr>
 
-                }
-                </table>
-            }
+    } }
+
     </div>
 
     <div class="col-3">
-        <ul>
-        @if (ViewBag.ListRequestingUsers != null)
-        {
-
-
-        
-        @foreach (User user in ViewBag.ListRequestingUsers)
-            
-        {
-           <li><a asp-controller="User" asp-action="profile" asp-route-screenname="@user.ScreenName">@user.ScreenName</a></li>
-           <li><a asp-controller="User" asp-action="ConfirmFriendRequest" asp-route-id="@user.ID">Confrim</a> | <a asp-controller="User" asp-action="DenyFriendRequest" asp-route-id="@user.ID">Deny</a></li>
-           
-        }
-            }
-        </ul>
+       
     </div>
 </div>
 
