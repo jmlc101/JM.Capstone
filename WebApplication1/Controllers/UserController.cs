@@ -181,7 +181,7 @@ namespace WebApplication1.Controllers
         }
 
 
-        
+
 
         public ActionResult DisplayFavorites()
         {
@@ -210,22 +210,10 @@ namespace WebApplication1.Controllers
                 ViewBag.FavoriteRoutes = routes;
                 ViewBag.Favorites = existingFavoriteRelationships;
                 ViewBag.SessionScreenName = HttpContext.Session.GetString("_ScreenName");
-                /*
-                User user = context.Users.Single(u => u.Email == email);
-                var exisitngFriendRequests = context.UserFriendRequests.Where(r => r.UserID == user.ID).ToList();
-
-                IList<User> requestingUsers = new List<User>();
-
-                foreach (UserFriendRequest request in exisitngFriendRequests)
-                {
-                    requestingUsers.Add(request.User);
-                }
-                ViewBag.ListRequestingUsers = requestingUsers;
-                */
 
                 TempData["Alert"] = TempData["Alert"];
                 ViewBag.DbSubmissionAlert = TempData["Alert"];
-                
+
 
                 return View("Index");
             }
