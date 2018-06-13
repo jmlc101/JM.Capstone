@@ -25,6 +25,9 @@ namespace WebApplication1.Controllers
         // GET: User
         public ActionResult Index()
         {
+            var existingFriendRequests = context.UserFriendRequests.ToList();
+            ViewBag.FRTest = existingFriendRequests;
+
             string email = HttpContext.Session.GetString("_Email");
             string screenName = HttpContext.Session.GetString("_ScreenName");
             try {
@@ -55,7 +58,7 @@ namespace WebApplication1.Controllers
 
             ViewBag.DbSubmissionAlert = TempData["Alert"];
 
-            //
+            /*
             User loggedUser = context.Users.Single(u => u.Email == email);
             var exisitngFriendRequests = context.UserFriendRequests.Where(r => r.User == loggedUser).ToList();
 
@@ -78,7 +81,7 @@ namespace WebApplication1.Controllers
                  
                 ViewBag.ListRequestingUsers = screenNames;
             }
-            //
+            */
 
             return View();
         }
@@ -98,13 +101,14 @@ namespace WebApplication1.Controllers
             return View();
         }
 
-        public ActionResult SendFriendRequest(int requestingUserID)
+        public ActionResult SendFriendRequest(int requestedUserID)
         {
-            User requestingUser = context.Users.Single(u => u.ID == requestingUserID);
-            User userRequested = context.Users.Single(u => u.ID == requestingUserID);
+            var email = HttpContext.Session.GetString("_Email");
+            User requestingUser = context.Users.Single(u => u.Email == email);
+            User userRequested = context.Users.Single(u => u.ID == requestedUserID);
 
             FriendRequest friendRequest = new FriendRequest {
-                RequestingUserID = requestingUserID
+                RequestingUserID = requestingUser.ID
             };
             
             UserFriendRequest userFriendRequest = new UserFriendRequest
@@ -141,6 +145,59 @@ namespace WebApplication1.Controllers
 
         public ActionResult DisplayFriendRequests()
         {
+            var email = HttpContext.Session.GetString("_Email");
+            User getUser = context.Users.Single(u => u.Email == email);
+            if (getUser == null)
+            {
+
+            }
+            else
+            {
+                //IList<UserFriendRequest> existingFriendRequests = getUser.UserFriendRequests.ToList();
+
+                IList<UserFriendRequest> existingRequests = context.UserFriendRequests
+                    .Where(ur => ur.UserID == getUser.ID).ToList();
+                List<string> screenNames = new List<string>();
+                foreach (UserFriendRequest userFriendRequest in existingRequests)
+                {
+                    int friendRequestID = userFriendRequest.FriendRequestID;
+                    FriendRequest friendRequest = context.FriendRequests.Single(fr => fr.ID == friendRequestID);
+                    int requestingUserID = friendRequest.RequestingUserID;
+                    User requestingUser = context.Users.Single(u => u.ID == requestingUserID);
+                    string screenName = requestingUser.ScreenName;
+                    screenNames.Add(screenName);
+
+                }
+
+                
+                
+
+
+                /*
+                foreach (UserFriendRequest friendRequest in existingFriendRequests)
+                {
+                    int id = friendRequest.FriendRequest.RequestingUserID;
+                    int requestingUserId = id;
+                    User requestingUser = context.Users.Single(u => u.ID == requestingUserId);
+                    users.Add(requestingUser);
+                    string userScreenName = requestingUser.ScreenName;
+                    screenNames.Add(userScreenName);
+
+                }
+                */
+
+
+
+
+                ViewBag.FR = screenNames;
+                ViewBag.SessionScreenName = HttpContext.Session.GetString("_ScreenName");
+
+                TempData["Alert"] = TempData["Alert"];
+                ViewBag.DbSubmissionAlert = TempData["Alert"];
+            }
+
+
+            /*
             ////
             string email = HttpContext.Session.GetString("_Email");
             User user = context.Users.Single(u => u.Email == email);
@@ -175,7 +232,8 @@ namespace WebApplication1.Controllers
                 
 
             */
-                return View("Index");
+            return View("Index");
+            
             
             
         }

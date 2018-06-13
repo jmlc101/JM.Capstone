@@ -16,6 +16,7 @@ namespace WebApplication1.Data
         public DbSet<Review> Reviews { get; set; }
         public DbSet<UserUser> UserUsers { get; set; }
         public DbSet<UserFriendRequest> UserFriendRequests { get; set; }
+        public DbSet<FriendRequest> FriendRequests { get; set; }
 
         public JMCapstoneDbContext(DbContextOptions<JMCapstoneDbContext> options) : base(options)
         {
