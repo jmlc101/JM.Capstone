@@ -57,6 +57,29 @@ namespace WebApplication1.Controllers
             return View();
         }
 
+        public ActionResult SendFriendRequest(ProfileViewModel profileViewModel)
+        {
+            User requestingUser = context.Users.Single(u => u.Email == (HttpContext.Session.GetString("_Email")));
+            User requestedUser = context.Users.Single(u => u.ScreenName == profileViewModel.ProfileUserScreenName);
+            FriendRequest friendRequest = new FriendRequest
+            {
+                RequestingUserID = requestingUser.ID,
+                RequestingUserScreenName = requestingUser.ScreenName,
+                RequestedUserID = requestedUser.ID,
+                RequestedUserScreenName = requestedUser.ScreenName
+            };
+            context.FriendRequests.Add(friendRequest);
+            context.SaveChanges();
+
+            TempData["Alert"] = "Friend request has been sent!";
+            return View("Index");
+        }
+
+        public ActionResult DisplayFriendRequests()
+        {
+            return View("Index");
+        }
+
         public ActionResult AcceptFriendRequest(int id)
         {
             User requestor = context.Users.Single(u => u.ID == id);

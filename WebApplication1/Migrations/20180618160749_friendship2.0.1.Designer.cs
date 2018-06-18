@@ -11,9 +11,10 @@ using WebApplication1.Data;
 namespace WebApplication1.Migrations
 {
     [DbContext(typeof(JMCapstoneDbContext))]
-    partial class JMCapstoneDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180618160749_friendship2.0.1")]
+    partial class friendship201
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -70,13 +71,9 @@ namespace WebApplication1.Migrations
 
                     b.Property<int>("RequestedID");
 
-                    b.Property<int?>("TestKey");
-
                     b.HasKey("RequestorID", "RequestedID");
 
                     b.HasIndex("RequestedID");
-
-                    b.HasIndex("TestKey");
 
                     b.ToTable("Friendships");
                 });
@@ -177,17 +174,12 @@ namespace WebApplication1.Migrations
                     b.HasOne("WebApplication1.Models.User", "Requested")
                         .WithMany()
                         .HasForeignKey("RequestedID")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("WebApplication1.Models.User", "Requestor")
-                        .WithMany("FriendShips")
-                        .HasForeignKey("RequestorID")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("WebApplication1.Models.User")
                         .WithMany()
-                        .HasForeignKey("TestKey")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .HasForeignKey("RequestorID")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("WebApplication1.Models.RouteReview", b =>
@@ -195,12 +187,12 @@ namespace WebApplication1.Migrations
                     b.HasOne("WebApplication1.Models.Review", "Review")
                         .WithMany("RouteReviews")
                         .HasForeignKey("ReviewID")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("WebApplication1.Models.Route", "Route")
                         .WithMany("RouteReviews")
                         .HasForeignKey("RouteID")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("WebApplication1.Models.UserRoute", b =>
@@ -208,12 +200,12 @@ namespace WebApplication1.Migrations
                     b.HasOne("WebApplication1.Models.Route", "Route")
                         .WithMany("UserRoutes")
                         .HasForeignKey("RouteID")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("WebApplication1.Models.User", "User")
                         .WithMany("UserRoutes")
                         .HasForeignKey("UserID")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

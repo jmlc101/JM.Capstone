@@ -16,6 +16,7 @@ namespace WebApplication1.Data
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Message> Messages { get; set; }
         public DbSet<RequestorRequested> Friendships { get; set; }
+        public DbSet<FriendRequest> FriendRequests { get; set; }
 
         public JMCapstoneDbContext(DbContextOptions<JMCapstoneDbContext> options) : base(options)
         {
@@ -23,9 +24,32 @@ namespace WebApplication1.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<User>()
+                .HasMany(p => p.FriendShips)
+                .WithOne(t => t.Requestor)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<RequestorRequested>()
+                .HasOne(p => p.Requestor)
+                .WithMany(t => t.FriendShips )
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<User>()
+                .HasMany(p => p.FriendShips)
+                .WithOne()
+                .OnDelete(DeleteBehavior.Restrict);
+
+
             modelBuilder.Entity<UserRoute>().HasKey(c => new { c.UserID, c.RouteID });
-            modelBuilder.Entity<RequestorRequested>().HasKey(c => new { c.RequestorID, c.RequestedID });
-            
+            //modelBuilder.Entity<RequestorRequested>().HasKey(c => new { c.RequestorID, c.RequestedID });
+
+            foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
+            {
+                relationship.DeleteBehavior = DeleteBehavior.Restrict;
+            }
+
+            base.OnModelCreating(modelBuilder);
+
         }
     }
 }
