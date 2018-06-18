@@ -57,6 +57,34 @@ namespace WebApplication1.Controllers
             return View();
         }
 
+        public ActionResult AcceptFriendRequest(int id)
+        {
+            User requestor = context.Users.Single(u => u.ID == id);
+            User requested = context.Users.Single(u => u.Email == (HttpContext.Session.GetString("_Email")));
+
+            IList<RequestorRequested> existingItems = context.Friendships
+                    .Where(ur => ur.RequestorID == requestor.ID)
+                    .Where(ur => ur.RequestedID == requested.ID).ToList();
+            if (existingItems.Count == 0)
+            {
+                RequestorRequested friendship = new RequestorRequested
+                {
+                    Requestor = requestor,
+                    Requested = requested
+                };
+                context.Friendships.Add(friendship);
+                context.SaveChanges();
+
+                TempData["Alert"] = "Friend Request Accepted!";
+
+                return View("Index");
+            }
+            else
+            {
+                return View("Index");
+            }
+        }
+
         public ActionResult Profile(string screenname)
         {
             if (HttpContext.Session.GetString("_Email") is null) // TODO - Is there a better way to filter this?

@@ -737,7 +737,7 @@ namespace WebApplication1.Controllers
 
                     return Redirect("/User/DisplayFavorites");
                     }
-                    catch
+                    catch // TODO - I made it try catch this for some reason...
                     {
                         UserRoute favRoute = new UserRoute
                         {
