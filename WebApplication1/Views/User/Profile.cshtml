@@ -9,7 +9,11 @@
     <div class="row">
         <div class="col-2 menu">
             
-                <input id="two" type="button" value="Send Friend Request" onclick="location.href='@Url.Action("Index", "Route")'" />
+                <input id="two" type="button" value="Send Friend Request" onclick="location.href='@Url.Action("Index", "User")'" />
+                <form asp-controller="User" asp-action="SendFriendRequest" method="post">
+                    <input type="hidden" asp-for="ProfileUserScreenName" value="@ViewBag.ProfileUserScreenName" />
+                    <input id="two" type="submit" value="Send Friend Request" />
+                </form>
                 <input id="two" type="button" value="Trails Blazed" onclick="location.href='@Url.Action("SaveRoute", "Route")'" />
                 <input id="two" type="button" value="Reviews Made" onclick="location.href='@Url.Action("DisplayFavorites", "User")'" />
                 <input id="two" type="button" value="Favorite Routes" />

@@ -13,7 +13,7 @@
             <li><input id="two" type="button" value="Trail Blaze!" onclick="location.href='@Url.Action("SaveRoute", "Route")'" /></li>
             <li><input id="two" type="button" value="Find Routes" onclick="location.href='@Url.Action("Index", "Route")'" /></li>
             <li><input id="two" type="button" value="Favorite Routes" onclick="location.href='@Url.Action("DisplayFavorites", "User")'" /></li>
-            <li><input id="two" type="button" value="Friends" )'" /></li>
+            <li><input id="two" type="button" value="Friends" onclick="location.href='@Url.Action("DisplayFriends", "User")'" /><a href="@Url.Action("DisplayFriendRequests", "User")">@ViewBag.FriendRequestAlert</a></li>
             <li><input id="two" type="button" value="Mail" onclick="location.href='@Url.Action("DisplayMail", "User")'" />@ViewBag.NewMessageAlert</li>
             <li><input id="two" type="button" value="LogOff" onclick="location.href='@Url.Action("LogOff", "User")'" /></li> <!-- TODO - Thank you https://stackoverflow.com/questions/2503923/html-button-calling-an-mvc-controller-and-action-method -->
         </ul>
@@ -69,6 +69,36 @@
                 </div>
 
             }
+
+        @if (ViewBag.FriendRequestList != null)
+            {
+                <div class="box">
+                    @foreach (FriendRequest request in ViewBag.FriendRequestList)
+                    {
+                        <p>From: <a asp-controller="User" asp-action="Profile" asp-route-screenname="@request.RequestingUserScreenName">@request.RequestingUserScreenName</a></p>
+                        <form asp-controller="User" asp-action="AcceptFriendRequest" method="post">
+                            <input type="hidden" asp-for="ProfileUserScreenName" value="@request.RequestingUserScreenName" />
+                            <input id="three" type="submit" value="Accept" />
+                        </form>
+                        <a id="three" asp-controller="User" asp-action="DenyFriendRequest" asp-route-id="@request.ID">Deny</a>
+                            <hr />
+                    }
+                </div>
+
+            }
+
+        @if (ViewBag.FriendsNames != null)
+            {
+                <div class="box">
+                    @foreach (string friendsName in ViewBag.FriendsNames)
+                    {
+                        <p><a asp-controller="User" asp-action="Profile" asp-route-screenname="@friendsName">@friendsName</a></p>
+                        <hr />
+                    }
+                </div>
+
+            }
+
     </div>
 
     <div class="col-3">

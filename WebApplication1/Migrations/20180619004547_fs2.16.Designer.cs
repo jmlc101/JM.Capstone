@@ -11,9 +11,10 @@ using WebApplication1.Data;
 namespace WebApplication1.Migrations
 {
     [DbContext(typeof(JMCapstoneDbContext))]
-    partial class JMCapstoneDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180619004547_fs2.16")]
+    partial class fs216
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -45,9 +46,9 @@ namespace WebApplication1.Migrations
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("ScreenNameA");
+                    b.Property<int>("UserIDA");
 
-                    b.Property<string>("ScreenNameB");
+                    b.Property<int>("UserIDB");
 
                     b.HasKey("ID");
 

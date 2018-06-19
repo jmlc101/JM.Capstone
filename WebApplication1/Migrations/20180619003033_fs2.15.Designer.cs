@@ -11,9 +11,10 @@ using WebApplication1.Data;
 namespace WebApplication1.Migrations
 {
     [DbContext(typeof(JMCapstoneDbContext))]
-    partial class JMCapstoneDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180619003033_fs2.15")]
+    partial class fs215
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -38,20 +39,6 @@ namespace WebApplication1.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("FriendRequests");
-                });
-
-            modelBuilder.Entity("WebApplication1.Models.Friendships", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("ScreenNameA");
-
-                    b.Property<string>("ScreenNameB");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("Friendships");
                 });
 
             modelBuilder.Entity("WebApplication1.Models.Message", b =>

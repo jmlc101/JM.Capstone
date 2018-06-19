@@ -17,7 +17,7 @@ namespace WebApplication1
             var allowedCharCount = allowedChars.Length;
             for (var i = 0; i <= length - 1; i++)
             {
-                chars[i] = allowedChars[Convert.ToInt32((allowedChars.Length) * randNum.NextDouble())];
+                chars[i] = allowedChars[Convert.ToInt32((allowedChars.Length) * randNum.NextDouble())]; // TODO - intermittant exception thrown here. IndexOutOfRangeException: Index was outside the bounds of the array.
             }
             return new string(chars);
         }

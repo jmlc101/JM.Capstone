@@ -47,6 +47,21 @@ namespace WebApplication1.Controllers
                 string newMessageAlert = string.Format("{0} New!", unViewedMessages.Count);
                 ViewBag.NewMessageAlert = newMessageAlert;
             }
+
+            List<FriendRequest> friendrequests = new List<FriendRequest>();
+            foreach (FriendRequest friendrequest in context.FriendRequests)
+            {
+                if (friendrequest.RequestedUserID == user.ID)
+                {
+                    friendrequests.Add(friendrequest);
+                }
+            }
+            if (friendrequests.Count > 0)
+            {
+                string friendRequestAlert = string.Format("{0} request!", friendrequests.Count);
+                ViewBag.FriendRequestAlert = friendRequestAlert;
+            }
+
             ViewBag.User = user;// TODO - with This I can eliminate the two viewbags below. email and screen name.
             ViewBag.SessionEmail = HttpContext.Session.GetString("_Email");
             ViewBag.SessionScreenName = HttpContext.Session.GetString("_ScreenName");
@@ -57,32 +72,110 @@ namespace WebApplication1.Controllers
             return View();
         }
 
-        public ActionResult AcceptFriendRequest(int id)
+        public ActionResult SendFriendRequest(ProfileViewModel profileViewModel)
         {
-            User requestor = context.Users.Single(u => u.ID == id);
-            User requested = context.Users.Single(u => u.Email == (HttpContext.Session.GetString("_Email")));
+            User requestingUser = context.Users.Single(u => u.Email == (HttpContext.Session.GetString("_Email")));
+            User requestedUser = context.Users.Single(u => u.ScreenName == profileViewModel.ProfileUserScreenName);
 
-            IList<RequestorRequested> existingItems = context.Friendships
-                    .Where(ur => ur.RequestorID == requestor.ID)
-                    .Where(ur => ur.RequestedID == requested.ID).ToList();
-            if (existingItems.Count == 0)
+            FriendRequest friendRequest = new FriendRequest
             {
-                RequestorRequested friendship = new RequestorRequested
-                {
-                    Requestor = requestor,
-                    Requested = requested
-                };
-                context.Friendships.Add(friendship);
-                context.SaveChanges();
+                RequestingUserID = requestingUser.ID,
+                RequestingUserScreenName = requestingUser.ScreenName,
+                RequestedUserID = requestedUser.ID,
+                RequestedUserScreenName = requestedUser.ScreenName
+            };
+            context.FriendRequests.Add(friendRequest);
+            context.SaveChanges();
 
-                TempData["Alert"] = "Friend Request Accepted!";
+            TempData["Alert"] = "Friend request has been sent!";
+            return View("Index");
+        }
 
-                return View("Index");
+        public ActionResult DisplayFriendRequests()
+        {
+            var email = HttpContext.Session.GetString("_Email");
+            User getUser = context.Users.Single(u => u.Email == email);
+            if (getUser == null)
+            {
+
             }
             else
             {
+                List<FriendRequest> getFriendRequests = new List<FriendRequest>();
+                foreach (FriendRequest fr in context.FriendRequests)
+                {
+                    if (fr.RequestedUserID == getUser.ID)
+                    {
+                        getFriendRequests.Add(fr);
+                    }
+                }
+                getFriendRequests.Reverse();
+                if (getFriendRequests.Count() > 0)
+                {
+                    // TODO - New Mail? Unread Mail? Replied to Mail?
+                    ViewBag.FriendRequestList = getFriendRequests;
+                }
+                ViewBag.User = getUser;// TODO - with This I can eliminate the two viewbags below. email and screen name.
+                ViewBag.SessionScreenName = HttpContext.Session.GetString("_ScreenName");
+
+                TempData["Alert"] = TempData["Alert"];
+                ViewBag.DbSubmissionAlert = TempData["Alert"];
+
+
                 return View("Index");
             }
+
+            return Redirect("/User");
+        }
+
+        public ActionResult AcceptFriendRequest(ProfileViewModel profileViewModel)
+        {
+            User requestor = context.Users.Single(u => u.ScreenName == profileViewModel.ProfileUserScreenName);
+            User requested = context.Users.Single(u => u.Email == (HttpContext.Session.GetString("_Email")));
+
+            Friendships friendship = new Friendships
+            {
+                ScreenNameA = requested.ScreenName,
+                ScreenNameB = requestor.ScreenName
+            };
+
+            context.Friendships.Add(friendship);
+
+            foreach (var request in context.FriendRequests)
+            {
+                if (request.RequestedUserID == requested.ID)
+                {
+                    if (request.RequestingUserID == requestor.ID)
+                    {
+                        context.FriendRequests.Remove(request);
+                    }
+                }
+            }
+
+            context.SaveChanges();
+
+            TempData["Alert"] = "Friend request has been Accepted";
+            return View("Index");
+        }
+
+        public ActionResult DisplayFriends()
+        {
+            User getUser = context.Users.Single(u => u.Email == (HttpContext.Session.GetString("_Email")));
+            List<string> friendScreenNames = new List<string>();
+            foreach (var friendship in context.Friendships)
+            {
+                if (friendship.ScreenNameA == getUser.ScreenName)
+                {
+                    friendScreenNames.Add(friendship.ScreenNameB);
+                }
+                if (friendship.ScreenNameB == getUser.ScreenName)
+                {
+                    friendScreenNames.Add(friendship.ScreenNameA);
+                }
+            }
+            friendScreenNames.Reverse();
+            ViewBag.FriendsNames = friendScreenNames;
+            return View("Index");
         }
 
         public ActionResult Profile(string screenname)
