@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Mail;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -68,6 +71,7 @@ namespace WebApplication1.Controllers
             ViewBag.answer = "yes";
 
             ViewBag.DbSubmissionAlert = TempData["Alert"];
+            
 
             return View();
         }
@@ -88,7 +92,7 @@ namespace WebApplication1.Controllers
             context.SaveChanges();
 
             TempData["Alert"] = "Friend request has been sent!";
-            return View("Index");
+            return Redirect("/User");
         }
 
         public ActionResult DisplayFriendRequests()
@@ -117,10 +121,6 @@ namespace WebApplication1.Controllers
                 }
                 ViewBag.User = getUser;// TODO - with This I can eliminate the two viewbags below. email and screen name.
                 ViewBag.SessionScreenName = HttpContext.Session.GetString("_ScreenName");
-
-                TempData["Alert"] = TempData["Alert"];
-                ViewBag.DbSubmissionAlert = TempData["Alert"];
-
 
                 return View("Index");
             }
@@ -154,8 +154,8 @@ namespace WebApplication1.Controllers
 
             context.SaveChanges();
 
-            TempData["Alert"] = "Friend request has been Accepted";
-            return View("Index");
+            TempData["Alert"] = "Friend request has been Accepted!";
+            return Redirect("/User");
         }
 
         public ActionResult DisplayFriends()
@@ -175,6 +175,7 @@ namespace WebApplication1.Controllers
             }
             friendScreenNames.Reverse();
             ViewBag.FriendsNames = friendScreenNames;
+            ViewBag.SessionScreenName = HttpContext.Session.GetString("_ScreenName");
             return View("Index");
         }
 
@@ -187,6 +188,7 @@ namespace WebApplication1.Controllers
             User profilesUser = context.Users.Single(u => u.ScreenName == screenname);
 
             ViewBag.ProfileUserScreenName = profilesUser.ScreenName;
+            ViewBag.UserScreenName = HttpContext.Session.GetString("_ScreenName");
             return View();
         }
 
@@ -541,6 +543,7 @@ namespace WebApplication1.Controllers
             }
 
             //return View("/User/Profile/sendMessageViewModel.RecieversID");
+            TempData["Alert"] = "Message has been Sent!";
             return Redirect("/User");
         }
 
